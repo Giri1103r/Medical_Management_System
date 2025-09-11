@@ -1,0 +1,10 @@
+import React from 'react'
+import AdminLayout from './layouts/adminLayout'
+
+const Profile = () => {
+  return (
+    
+  )
+}
+
+export default Profile
