@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const side_bar = ({item, menuData}) => {
       const [open, setOpen] = useState(false);
-console.log("Menu Item:", item);
+
       const children = menuData.filter((child)=>child.parent_id === item._id);
 
    return (
@@ -46,7 +46,7 @@ const SidebarMenu = ({ menuData }) => {
 
   return (
     <aside className="w-64 bg-white shadow-md h-screen p-4">
-      <div className="text-lg font-bold mb-4 text-gray-800"></div>
+      <div className="text-lg font-bold mb-4 text-gray-800">My App</div>
       <ul className="space-y-1">
         {rootItems.map((item) => (
           <side_bar key={item._id} item={item} menuData={menuData} />

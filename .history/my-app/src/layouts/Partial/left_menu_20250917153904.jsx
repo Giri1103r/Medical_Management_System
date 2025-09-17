@@ -5,7 +5,7 @@ const left_menu = () => {
     const [menuData, setMenuData] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/leftmenus/getmenus")
+        fetch("http://localhost:5000/api/left")
             .then(response => response.json())
             .then(data => setMenuData(data))
             .catch(error => console.error('Error fetching menu data:', error));

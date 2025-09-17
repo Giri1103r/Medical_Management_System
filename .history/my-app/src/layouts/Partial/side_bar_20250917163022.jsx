@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const side_bar = ({item, menuData}) => {
       const [open, setOpen] = useState(false);
-console.log("Menu Item:", item);
+console
       const children = menuData.filter((child)=>child.parent_id === item._id);
 
    return (
