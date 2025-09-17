@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import  SidebarMenu from "./side_bar";
+const SidebarMenu = 
 
 const left_menu = () => {
     const [menuData, setMenuData] = useState([]);

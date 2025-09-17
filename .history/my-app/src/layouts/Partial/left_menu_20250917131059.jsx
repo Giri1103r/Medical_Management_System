@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import  SidebarMenu from "./side_bar";
 
 const left_menu = () => {
     const [menuData, setMenuData] = useState([]);
@@ -13,11 +12,7 @@ const left_menu = () => {
 
     return (
         <div>
-            {menuData.length > 0 ? (
-                <SidebarMenu menuData={menuData} />
-            ) : (
-                <p>Loading menu...</p>
-            )}
+            {}
         </div>
     )
 }

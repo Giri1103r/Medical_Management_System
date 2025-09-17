@@ -13,7 +13,7 @@ app.use(express.json());
 
 // routes
 app.use("/api/user", loginRoutes);
-app.use("/api/menus", left);
+app.use("api/menus", left);
 // app.use("/users/others/", loginRoutes);
 // MongoDB Connection
 

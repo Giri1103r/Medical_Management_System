@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import  SidebarMenu from "./side_bar";
 
 const left_menu = () => {
-    const [menuData, setMenuData] = useState([]);
+    const [menuData setMenuData] = useState([]);
 
     useEffect(() => {
         fetch("http://localhost:5000/api/menus")
@@ -12,13 +11,7 @@ const left_menu = () => {
     }, []);
 
     return (
-        <div>
-            {menuData.length > 0 ? (
-                <SidebarMenu menuData={menuData} />
-            ) : (
-                <p>Loading menu...</p>
-            )}
-        </div>
+        <div>left_menu</div>
     )
 }
 

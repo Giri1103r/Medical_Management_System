@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Partial/header";
 import Footer from "./Partial/footer";
-import LeftMenu from "./Partial/left_menu"; 
+import LeftMenu from "./left_menu"; // ✅ import your sidebar
 
 const AdminLayout = ({ title, children }) => {
   return (
@@ -11,12 +11,12 @@ const AdminLayout = ({ title, children }) => {
 
     
       <div className="flex flex-grow w-full">
-   
+        {/* Sidebar */}
         <aside className="w-64 bg-gray-800 text-white min-h-screen">
           <LeftMenu />
         </aside>
 
-    
+        {/* Page Content */}
         <main className="flex-grow flex flex-col bg-gray-50">
           <div className="flex-grow p-4">{children}</div>
 

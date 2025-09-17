@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const loginRoutes = require("./Routes/loginroutes");
-const left = require("./Routes/left_menu");
 require("dotenv").config();
 
 const app = express();
@@ -13,7 +12,7 @@ app.use(express.json());
 
 // routes
 app.use("/api/user", loginRoutes);
-app.use("/api/menus", left);
+app.use("./api/menus", left);
 // app.use("/users/others/", loginRoutes);
 // MongoDB Connection
 
