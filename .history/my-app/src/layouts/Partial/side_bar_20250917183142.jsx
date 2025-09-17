@@ -11,13 +11,13 @@ const SideBar = ({ item, menuData }) => {
       {item.is_parent ? (
         <>
           <div className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
-
+            {/* Name as a link */}
             <Link to={item.link} className="flex items-center flex-1">
               <i className={`${item.icon} w-5 h-5 mr-2`} />
               <span className="text-left">{item.name || "NO NAME"}</span>
             </Link>
 
-           
+            {/* Toggle expand/collapse */}
             <button
               className="ml-auto text-gray-500 hover:text-black"
               onClick={() => setOpen(!open)}
