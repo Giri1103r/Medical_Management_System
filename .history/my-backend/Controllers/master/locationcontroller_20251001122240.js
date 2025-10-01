@@ -13,7 +13,7 @@ const store = async (req, res) => {
 
     try {
         const locations = new Location({
-            location_namename,
+            location_name:name,
         });
 
         await locations.save();
