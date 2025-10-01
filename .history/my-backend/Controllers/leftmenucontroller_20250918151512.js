@@ -4,7 +4,7 @@ const { body, validationResult } = require("express-validator");
 const getMenus = async (req, res) => {
     try {
         const menus = await LeftMenu.find({
-            
+            status: 1,
         });
         console.log("Menus fetched from DB:", menus);
         res.status(200).json(menus);

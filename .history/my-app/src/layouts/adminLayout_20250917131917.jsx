@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Partial/header";
 import Footer from "./Partial/footer";
-import LeftMenu from "./Partialleft_menu"; 
+import LeftMenu from "./Partial/left_menu"; 
 
 const AdminLayout = ({ title, children }) => {
   return (

@@ -1,1 +1,0 @@
-const LeftMenu = require("../Models/left_menu");

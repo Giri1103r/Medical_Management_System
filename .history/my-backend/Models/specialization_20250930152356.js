@@ -1,0 +1,12 @@
+const mongoose = require("mongoose");
+
+const specializationSchema = new mongoose.Schema({
+   
+    name: { type: String, },
+    createdBy:{type}
+    status: { type: Number, default: 1 },
+    trash: { type: Boolean, default: false },
+},
+    { timestamps: true },
+);
+module.exports = mongoose.model("master_specialization", specializationSchema);
