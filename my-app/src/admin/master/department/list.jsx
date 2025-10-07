@@ -15,6 +15,7 @@ const list = () => {
     const [data, setData] = useState([]);
     const [filterText, setFilterText] = useState("");
     const [showFilter, setShowFilter] = useState(false);
+    const [hospitals , setHospitals] = useState([]);
 
     const { control } = useForm();
 
@@ -22,11 +23,19 @@ const list = () => {
     useEffect(() => {
         axios.get("http://localhost:5000/api/department/list")
             .then(response => setData(response.data))
-            
+
+            .catch(error => console.error("Error fetching data:", error));
+
+        axios.get("http://localhost:5000/api/hospital/gethospitalName")
+            .then(response => setHospitals(response.data))
             .catch(error => console.error("Error fetching data:", error));
     }, []);
 
+    const hospitalMap = {};
 
+    hospitals.forEach(hos => {
+        hospitalMap[hos._id] = hos.hospital_name
+    })
     const handleStatusChange = async (id, currentStatus) => {
         const newStatus = currentStatus === 1 ? 0 : 1;
         const title = currentStatus === 1 ? "Do you want to Inactivate the status?" : "Do you want to Activate the status?";
@@ -109,7 +118,8 @@ const list = () => {
 
     // Data table columns
     const columns = [
-        { name: "Name", selector: row => row.department_name, sortable: true },
+        { name: "Hospital Name", selector: row => hospitalMap[row.hospital_id],sortable: true },
+        { name: "Department Name", selector: row => row.department_name, sortable: true },
         {
             name: "Status",
             selector: row => row.status === 1 ? 'Active' : 'Inactive',

@@ -44,7 +44,7 @@ const EditHospital = () => {
       axios.get(`http://localhost:5000/api/hospital/selectone/${id}`)
         .then(res => {
           const data = res.data;
-      
+
           setValue("name", data.hospital_name);
           setValue("location_id", data.location_id);
         })
@@ -63,6 +63,17 @@ const EditHospital = () => {
 
   return (
     <AdminLayout title="Edit Hospital">
+      <div className="rounded-2xl overflow-hidden shadow-lg bg-white border mb-4">
+        <div className="p-2 flex items-center justify-between">
+          <h2 className="text-sm font-bold text-gray-800">Hospital</h2>
+          <button
+            onClick={() => navigate('/hospital')}
+            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+          >
+            Back
+          </button>
+        </div>
+      </div>
       <div className="max-w-6xl mx-auto mt-6 px-4">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="bg-white shadow-md rounded-xl p-6">

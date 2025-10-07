@@ -9,11 +9,12 @@ const store = async (req, res) => {
         return res.status(422).json({ errors: errors.array() });
     }
 
-    const { name } = req.body;
+    const { name,hospital_id  } = req.body;
 
     try {
         const departments = new Department({
             department_name:name,
+            hospital_id:hospital_id
         });
 
         await departments.save();
@@ -78,8 +79,8 @@ const selectone = async (req, res) => {
 const updates = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name } = req.body;
-        const departments = await Department.findByIdAndUpdate(id, { department_name:name }, { new: true });
+        const { name,hospital_id  } = req.body;
+        const departments = await Department.findByIdAndUpdate(id, { department_name:name,hospital_id }, { new: true });
         if (!departments) {
             return res.status(404).json({ message: "Departments not found" });
         }

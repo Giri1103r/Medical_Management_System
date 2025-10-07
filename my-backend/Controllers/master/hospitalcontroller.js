@@ -1,3 +1,4 @@
+const hospital = require('../../Models/master/hospital');
 const Hospital = require('../../Models/master/hospital')
 const { body, validationResult } = require("express-validator");
 
@@ -79,7 +80,7 @@ const selectone = async (req, res) => {
 const updates = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name } = req.body;
+        const { name,location_id } = req.body;
         const hospitals = await Hospital.findByIdAndUpdate(id, {   hospital_name:name,
             location_id:location_id, }, { new: true });
         if (!hospitals) {
@@ -166,6 +167,19 @@ const unique = async (req, res) => {
     }
 }
 
+const getHospitalName = async (req, res) => {
+    try {
+        const hospitalName = await Hospital.find()
+            .where('status').equals(1)
+            .select('hospital_name _id');
+            console.log(hospitalName);
+        res.status(200).json(hospitalName); 
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "no data fount" });
+    }
+};
 
 
-module.exports = { store, index, edit, updates, selectone, status, deletes, unique }
+
+module.exports = { store, index, edit, updates, selectone, status, deletes, unique,getHospitalName }
