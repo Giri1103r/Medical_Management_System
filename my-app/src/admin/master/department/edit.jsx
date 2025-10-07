@@ -1,38 +1,57 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../../layouts/AdminLayout';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
+import { useFlash } from '../../../context/FlashContext';
+import Select from 'react-select';
 
-const edit = () => {
+const EditDepartment = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { flash } = useFlash();
 
+  const { register, handleSubmit, control, reset, setValue, formState: { errors, isSubmitting } } = useForm();
+  const [hospitals, setHospitals] = useState([]);
+  const [options, setOptions] = useState([]);
 
-  const { register, handleSubmit, reset, setValue, formState: { errors, isSubmitting } } = useForm();
+  // Fetch hospitals
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/hospital/gethospitalName')
+      .then(response => {
+        setHospitals(response.data);
+      })
+      .catch(error => console.error("Error fetching hospitals:", error));
+  }, []);
 
+  // Map hospitals to react-select options
+  useEffect(() => {
+    const opts = hospitals.map(item => ({
+      value: item._id,
+      label: item.hospital_name
+    }));
+    setOptions(opts);
+  }, [hospitals]);
 
+  // Fetch department data and prefill form
   useEffect(() => {
     if (id) {
-    
-      fetch(`http://localhost:5000/api/department/selectone/${id}`)
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error("Network response was not ok " + res.statusText);
-          }
-          return res.json();
+      axios.get(`http://localhost:5000/api/department/selectone/${id}`)
+        .then(res => {
+          const data = res.data;
+          // Set the 'name' field
+          setValue("name", data.department_name || "");
+          // Set hospital_id field for react-select
+          setValue("hospital_id", data.hospital_id || null);
+          // Reset form with proper keys
+          reset({
+            name: data.department_name || "",
+            hospital_id: data.hospital_id || null
+          });
         })
-        .then((data) => {
-          setValue("name", data.department_name);
-          reset(data);
-        })
-        .catch((err) => console.error("Error fetching department:", err));
+        .catch(err => console.error("Error fetching department:", err));
     }
-  }, [id, reset]);
-
-
-
-
+  }, [id, reset, setValue]);
 
   const onSubmit = async (data) => {
     try {
@@ -40,13 +59,10 @@ const edit = () => {
         headers: { 'Content-Type': 'application/json' }
       });
 
-      console.log("Updated:", res.data);
-        navigate("/department", { state: { message: "Department Updated successfully!" } });
-
-      console.log("Form Data:", res.data);
+      flash("Department Updated successfully!", "success");
+      navigate("/department");
     } catch (err) {
-      flash("something went wrong!","error")
-      navigate("/department")
+      flash("Something went wrong!", "error");
       console.error("Error:", err);
     }
   };
@@ -70,22 +86,43 @@ const edit = () => {
           <div className="bg-white shadow-md rounded-xl p-6">
             <h4 className="text-center text-xl font-semibold mb-6">Department</h4>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Name */}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Name</label>
+                <label className="block text-sm font-medium text-gray-700">Hospital Name</label>
+                <Controller
+                  control={control}
+                  name="hospital_id"
+                  rules={{ required: "Hospital is required" }}
+                  render={({ field }) => {
+                    const selectedOption = options.find(opt => opt.value === field.value) || null;
+                    return (
+                      <Select
+                        options={options}
+                        value={selectedOption}
+                        placeholder="-- Select Hospital --"
+                        isClearable
+                        onChange={(selected) => field.onChange(selected?.value)}
+                      />
+                    );
+                  }}
+                />
+                {errors.hospital_id && <p className="text-red-500 text-sm mt-1">{errors.hospital_id.message}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Department Name</label>
                 <input
                   type="text"
-                  name='name '
-                  placeholder="Enter Name"
+                  placeholder="Enter Department Name"
                   className="block w-full rounded-md border border-gray-300 px-2 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
                   {...register("name", { required: "Name is required" })}
                 />
                 {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
               </div>
-
-
             </div>
+
+
 
             {/* Submit */}
             <div className="text-center mt-6">
@@ -97,6 +134,7 @@ const edit = () => {
                 Update
               </button>
             </div>
+
           </div>
         </form>
       </div>
@@ -104,4 +142,4 @@ const edit = () => {
   );
 };
 
-export default edit;
+export default EditDepartment;
