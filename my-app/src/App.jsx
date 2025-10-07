@@ -30,6 +30,15 @@ import Hospitallist from "./admin/master/hospital/list";
 import HospitalEdit from "./admin/master/hospital/edit";
 import HospitalView from "./admin/master/hospital/view";
 
+import DesignationAdd from "./admin/master/designation/add";
+import Designationlist from "./admin/master/designation/list";
+import DesignationEdit from "./admin/master/designation/edit";
+import DesignationView from "./admin/master/designation/view";
+
+import RoomAdd from "./admin/master/room/add";
+import Roomlist from "./admin/master/room/list";
+import RoomEdit from "./admin/master/room/edit";
+import RoomView from "./admin/master/room/view";
 
 
 function App() {
@@ -66,6 +75,16 @@ function App() {
                 <Route path="/hospital/add" element={<HospitalAdd />} />
                 <Route path="/hospital/edit/:id" element={<HospitalEdit />} />
                 <Route path="/hospital/view/:id" element={<HospitalView />} />
+
+                <Route path="/designation" element={<Designationlist />} />
+                <Route path="/designation/add" element={<DesignationAdd />} />
+                <Route path="/designation/edit/:id" element={<DesignationEdit />} />
+                <Route path="/designation/view/:id" element={<DesignationView />} />
+
+                <Route path="/room" element={<Roomlist />} />
+                <Route path="/room/add" element={<RoomAdd />} />
+                <Route path="/room/edit/:id" element={<RoomEdit />} />
+                <Route path="/room/view/:id" element={<RoomView />} />
 
 
               </Routes>
