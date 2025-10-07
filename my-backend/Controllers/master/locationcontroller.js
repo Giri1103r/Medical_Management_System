@@ -75,14 +75,16 @@ const selectone = async (req, res) => {
 };
 const getLocationName = async (req, res) => {
     try {
-        const locations = await Location.find({}); 
-        console.log(locations);
-        res.status(200).json(locations);
+        const locationName = await Location.find()
+            .where('status').equals(1)
+            .select('location_name _id');
+        res.status(200).json(locationName); 
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Server error", error: err.message });
     }
 };
+
 
 const updates = async (req, res) => {
     try {
@@ -142,7 +144,7 @@ const deletes = async (req, res) => {
         );
 
         if (!locations) {
-            return res.status(404).json({ message: "Specialization not found" });
+            return res.status(404).json({ message: "Locations not found" });
         }
 
         res.status(200).json({

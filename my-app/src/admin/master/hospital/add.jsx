@@ -14,11 +14,11 @@ const AddHospital = () => {
   const [locations, setLocations] = useState([]);
   const [options, setOptions] = useState([]);
 
-  // Fetch locations from API
+
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/location/getLocationName");
+        const res = await fetch("http://localhost:5000/api/location/getlocationname");
         const data = await res.json();
         setLocations(data || []);
       } catch (err) {
@@ -28,7 +28,7 @@ const AddHospital = () => {
     fetchLocation();
   }, []);
 
-  // Convert locations to select options
+
   useEffect(() => {
     if (locations.length > 0) {
       const opts = locations.map(item => ({
@@ -39,6 +39,7 @@ const AddHospital = () => {
     }
   }, [locations]);
 
+
   // Form submit handler
   const onSubmit = async (formData) => {
     try {
@@ -46,7 +47,6 @@ const AddHospital = () => {
         headers: { 'Content-Type': 'application/json' }
       });
       reset();
-      flash("Hospital saved successfully!", "success");
       navigate("/hospital", { state: { message: "Hospital saved successfully!" } });
       console.log("Form Data:", res.data);
     } catch (err) {
@@ -82,14 +82,20 @@ const AddHospital = () => {
                   control={control}
                   name="location_id"
                   rules={{ required: "Location is required" }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={options || []}
-                      placeholder="Select Location"
-                    />
-                  )}
+                  render={({ field }) => {
+                    const selectedOption = options.find(opt => opt.value === field.value) || null;
+                    return (
+                      <Select
+                        options={options}
+                        value={selectedOption} 
+                        placeholder="-- Select Location --"
+                        isClearable
+                        onChange={(selected) => field.onChange(selected?.value)}
+                      />
+                    );
+                  }}
                 />
+
                 {errors.location_id && <p className="text-red-500 text-sm mt-1">{errors.location_id.message}</p>}
               </div>
 

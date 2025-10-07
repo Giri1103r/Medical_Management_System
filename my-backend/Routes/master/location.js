@@ -6,8 +6,9 @@ const locationController = require("../../Controllers/master/locationcontroller"
 
 router.post("/store",locationController.store);
 router.get("/list", locationController.index);
+router.get("/getlocationname", locationController.getLocationName);
 router.get("/:id", locationController.edit);
-router.get("/getLocationName", locationController.getLocationName);
+
 router.put("/update/:id", locationController.updates);
 router.delete("/delete/:id", locationController.deletes);
 router.get("/selectone/:id", locationController.selectone);

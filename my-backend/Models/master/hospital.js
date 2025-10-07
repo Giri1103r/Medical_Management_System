@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 const hospitalSchema = new mongoose.Schema({
-    hospital_auto_id :{type:String},
+    hospital_auto_id: { type: String },
+    location_id: { type: mongoose.Schema.Types.Mixed },
     hospital_name: { type: String, },
     status: { type: Number, default: 1 },
     trash: { type: Boolean, default: false },

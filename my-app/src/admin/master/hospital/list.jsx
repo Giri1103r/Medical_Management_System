@@ -14,6 +14,7 @@ const list = () => {
 
     const [data, setData] = useState([]);
     const [filterText, setFilterText] = useState("");
+    const [location, setLocations] = useState([]);
     const [showFilter, setShowFilter] = useState(false);
 
     const { control } = useForm();
@@ -23,7 +24,16 @@ const list = () => {
         axios.get("http://localhost:5000/api/hospital/list")
             .then(response => setData(response.data))
             .catch(error => console.error("Error fetching data:", error));
+        axios.get("http://localhost:5000/api/location/getlocationname")
+            .then(response => setLocations(response.data))
+            .catch(error => console.error("Error fetching data:", error));
     }, []);
+
+    const locationMap ={};
+
+    location.forEach(loc=>{
+        locationMap[loc._id]  = loc.location_name
+    })
 
 
     const handleStatusChange = async (id, currentStatus) => {
@@ -67,7 +77,7 @@ const list = () => {
         }
     };
 
-    // Delete specialization
+
     const handleDelete = async (id) => {
         const result = await Swal.fire({
             title: "Are you sure?",
@@ -106,9 +116,10 @@ const list = () => {
         }
     };
 
-    // Data table columns
+
     const columns = [
-        { name: "Name", selector: row => row.hospital_name, sortable: true },
+        { name: "Location Name", selector: row => locationMap[row.location_id], sortable: true },
+        { name: "Hospital Name", selector: row => row.hospital_name, sortable: true },
         {
             name: "Status",
             selector: row => row.status === 1 ? 'Active' : 'Inactive',
@@ -149,7 +160,7 @@ const list = () => {
 
     return (
         <AdminLayout title=
-    "Hospital">
+            "Hospital">
             <div className="rounded-2xl overflow-hidden shadow-lg bg-white border mb-4">
                 <div className="p-2 flex items-center justify-between">
                     <h2 className="text-sm font-bold text-gray-800">hospital</h2>

@@ -3,17 +3,19 @@ const { body, validationResult } = require("express-validator");
 
 const store = async (req, res) => {
     await body("name").notEmpty().withMessage("Name is required").run(req);
+    await body("location_id").notEmpty().withMessage("Location Name is required").run(req);
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }
 
-    const { name } = req.body;
+    const { name,location_id } = req.body;
 
     try {
         const hospitals = new Hospital({
             hospital_name:name,
+            location_id:location_id,
         });
 
         await hospitals.save();
@@ -47,7 +49,6 @@ const index = async (req, res) => {
 const edit = async (req, res) => {
     try {
         const { id } = req.params;
-        console.log("ID in edit:", id);
         const hospitals = await Hospital.findById(id);
         if (!hospitals) {
             return res.status(404).json({ message: "hospitals not found" });
@@ -79,7 +80,8 @@ const updates = async (req, res) => {
     try {
         const { id } = req.params;
         const { name } = req.body;
-        const hospitals = await Hospital.findByIdAndUpdate(id, { hospital_name:name }, { new: true });
+        const hospitals = await Hospital.findByIdAndUpdate(id, {   hospital_name:name,
+            location_id:location_id, }, { new: true });
         if (!hospitals) {
             return res.status(404).json({ message: "Hospitals not found" });
         }
